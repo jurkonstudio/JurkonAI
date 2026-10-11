@@ -11,15 +11,16 @@ export function newChat() {
   const blank = state.conversations.find(c => !c.messages.length);
   if (blank) state.activeId = blank.id;
   else { const c = { id: uid(), title: 'Percakapan baru', createdAt: Date.now(), messages: [] }; state.conversations.unshift(c); state.activeId = c.id; }
-  persist(); emit();
+  state.stick = true; persist(); emit();
 }
-export function select(id) { state.activeId = id; emit(); }
+export function select(id) { state.activeId = id; state.stick = true; emit(); }
 export function setQuery(q) { state.query = q; emit(); }
 export function setPref(key, value) { state.prefs = { ...state.prefs, [key]: value }; persist(); emit(); }
-export function rename(title) { const c = active(), t = title?.trim(); if (!c || !t) return false; c.title = t.slice(0, LIMITS.title); persist(); emit(); return true; }
-export function remove() { state.conversations = state.conversations.filter(c => c.id !== state.activeId); state.activeId = null; persist(); emit(); }
+export function rename(title, id = state.activeId) { const c = state.conversations.find(x => x.id === id), t = title?.trim(); if (!c || !t) return false; c.title = t.slice(0, LIMITS.title); persist(); emit(); return true; }
+export function remove(id = state.activeId) { state.conversations = state.conversations.filter(c => c.id !== id); if (state.activeId === id) state.activeId = null; persist(); emit(); }
 export function clearHistory() { storage.clearAll(); state.conversations = []; state.activeId = null; persist(); emit(); }
-// Penjaga state.pending mencegah pengiriman ganda (tombol, Enter, kartu saran).
+const NOTICE = 'Layanan AI belum terhubung. Pesanmu tersimpan di percakapan ini; balasan akan muncul setelah model dikonfigurasi.';
+// state.pending mencegah pengiriman ganda (tombol, Enter).
 export async function send(text) {
   text = (text ?? '').trim().slice(0, LIMITS.message);
   if (!text || state.pending) return;
@@ -27,12 +28,16 @@ export async function send(text) {
   const c = active();
   if (!c.messages.length) c.title = text.slice(0, 40);
   c.messages.push({ id: uid(), role: 'user', text, at: Date.now() });
-  state.pending = true; persist(); emit();
+  state.pending = true; state.stick = true; persist(); emit();
   try {
-    const r = await AIService.reply(c.messages);
-    c.messages.push({ id: uid(), role: 'assistant', text: r.text, simulated: !!r.simulated, at: Date.now() });
+    const r = await AIService.reply(c.messages.filter(m => m.role !== 'notice'));
+    c.messages.push({ id: uid(), role: 'assistant', text: r.text, at: Date.now() });
   } catch (e) {
-    c.messages.push({ id: uid(), role: 'assistant', text: e.message || 'Terjadi kesalahan. Coba kirim ulang.', error: true, at: Date.now() });
+    if (e.code === 'NOT_CONFIGURED') {
+      // Satu pemberitahuan per percakapan; selanjutnya cukup toast singkat.
+      if (!c.messages.some(m => m.role === 'notice')) c.messages.push({ id: uid(), role: 'notice', text: NOTICE, at: Date.now() });
+      else notify('Layanan AI belum terhubung.');
+    } else console.error('Jurkon: gagal memanggil layanan AI', e), c.messages.push({ id: uid(), role: 'assistant', text: 'Balasan gagal diambil. Coba kirim ulang.', error: true, at: Date.now() });
   }
-  state.pending = false; persist(); emit();
+  state.pending = false; state.stick = true; persist(); emit();
 }

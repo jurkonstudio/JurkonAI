@@ -2,7 +2,7 @@ import { STORAGE_KEY, LIMITS, DEFAULT_PREFS } from '../core/config.js';
 // localStorage TIDAK terenkripsi dan hanya ada di browser ini.
 const str = (v, n) => String(v ?? '').slice(0, n);
 function cleanMessage(m) {
-  if (!m || typeof m.text !== 'string' || !['user', 'assistant'].includes(m.role)) return null;
+  if (!m || typeof m.text !== 'string' || !['user', 'assistant', 'notice'].includes(m.role)) return null;
   return { id: str(m.id, 64) || String(Date.now()), role: m.role, text: m.text.slice(0, LIMITS.message), at: Number(m.at) || 0, simulated: !!m.simulated, error: !!m.error };
 }
 // Validasi + normalisasi: data rusak atau skema lama tidak membuat app gagal.
@@ -14,7 +14,7 @@ export function sanitize(d) {
       id: str(c.id, 64), title: str(c.title, LIMITS.title) || 'Percakapan', createdAt: Number(c.createdAt) || 0,
       messages: (Array.isArray(c.messages) ? c.messages : []).map(cleanMessage).filter(Boolean)
     })),
-    prefs: { theme: p.theme === 'light' ? 'light' : 'dark', fontsize: p.fontsize === '17' ? '17' : '15' }
+    prefs: { theme: p.theme === 'light' ? 'light' : 'dark', fontsize: ['17', '18'].includes(String(p.fontsize)) ? '18' : '16' }
   };
 }
 export function load() { try { return sanitize(JSON.parse(localStorage.getItem(STORAGE_KEY))); } catch { return sanitize(null); } }
