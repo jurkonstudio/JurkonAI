@@ -2,63 +2,63 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>Jurkon AI</title>
-<meta name="theme-color" content="#0b0d14">
-<link rel="icon" href="assets/logo.png">
+<meta name="theme-color" content="#15171d">
+<link rel="icon" type="image/png" href="assets/logo.png">
+<link rel="apple-touch-icon" href="assets/logo.png">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="styles/tokens.css">
 <link rel="stylesheet" href="styles/base.css">
 <link rel="stylesheet" href="styles/layout.css">
 <link rel="stylesheet" href="styles/components.css">
 <link rel="stylesheet" href="styles/responsive.css">
-
 </head>
 <body>
+<div id="boot-error" role="alert" hidden style="margin:16px;padding:14px 16px;border:1px solid #f07178;border-radius:12px;background:#1c1f27;color:#eceef4;font:15px/1.5 system-ui,sans-serif"><strong>Jurkon AI gagal dimuat sepenuhnya.</strong> Muat ulang halaman. Jika berlanjut, pastikan folder <code>src</code>, <code>styles</code>, dan <code>assets</code> ada di repositori. <a href="cek.html" style="color:#a0a3ff">Cek file yang hilang</a></div>
+<script>
+window.addEventListener('error',function(e){var t=e.target||{},res=t.tagName==='LINK'||t.tagName==='SCRIPT';
+if(res||!window.__jurkonReady){var b=document.getElementById('boot-error');if(b)b.hidden=false;console.error('Jurkon gagal dimuat:',res?(t.href||t.src):e.message,e.error||'');}},true);
+</script>
 <div class="app" id="app">
   <div class="scrim" id="scrim" hidden></div>
   <aside class="sidebar" id="sidebar" aria-label="Navigasi">
-    <div class="brand"><img src="assets/logo.png" alt="" width="32" height="32"><strong>Jurkon AI</strong></div>
-    <button class="btn primary" id="newChat">+ Chat baru</button>
-    <label class="sr" for="search">Cari percakapan</label>
-    <input class="field" id="search" type="search" placeholder="Cari percakapan…">
-    <nav class="history" id="history" aria-label="Riwayat"></nav>
-    <button class="btn ghost" id="openSettings">Pengaturan</button>
+    <div class="brand"><span class="tile"><img src="assets/logo.png" alt="" width="32" height="32"></span><span class="brand-name">Jurkon AI</span></div>
+    <button class="btn new" id="newChat" type="button"><span data-icon="plus"></span>Chat baru</button>
+    <div class="search"><span data-icon="search"></span><label class="sr" for="search">Cari percakapan</label><input id="search" type="search" placeholder="Cari percakapan"></div>
+    <nav class="history" id="history" aria-label="Riwayat percakapan"></nav>
+    <button class="btn plain" id="openSettings" type="button"><span data-icon="settings"></span>Pengaturan</button>
   </aside>
-  <main class="main">
+  <main class="main" id="main" data-view="home">
     <header class="top">
-      <button class="icon" id="menu" aria-label="Buka menu">☰</button>
+      <button class="icon only-mobile" id="menu" type="button" aria-label="Buka menu"><span data-icon="menu"></span></button>
+      <span class="tile sm"><img src="assets/logo.png" alt="Jurkon AI" width="28" height="28"></span>
       <h1 id="title">Jurkon AI</h1>
-      <button class="icon" id="rename" aria-label="Ubah nama percakapan">✎</button>
-      <button class="icon" id="delete" aria-label="Hapus percakapan">🗑</button>
+      <button class="icon only-mobile" id="newChatTop" type="button" aria-label="Chat baru"><span data-icon="plus"></span></button>
     </header>
     <section class="chat" id="chat" aria-live="polite"></section>
-    <form class="composer" id="form">
-      <label class="sr" for="input">Pesan</label>
-      <textarea id="input" rows="1" placeholder="Tulis pesan… (Shift+Enter untuk baris baru)"></textarea>
-      <button class="btn primary send" id="send" aria-label="Kirim">Kirim</button>
-    </form>
-    <p class="note">Mode prototipe: balasan adalah simulasi, bukan model AI nyata.</p>
+    <div class="dock">
+      <form class="composer" id="form">
+        <label class="sr" for="input">Pesan</label>
+        <textarea id="input" rows="1" placeholder="Tanyakan sesuatu…" enterkeyhint="send"></textarea>
+        <button class="send" id="send" type="submit" aria-label="Kirim pesan" disabled><span data-icon="send"></span><i class="spin" aria-hidden="true"></i></button>
+      </form>
+      <div class="suggest" id="suggest" role="group" aria-label="Saran"></div>
+    </div>
   </main>
 </div>
 <dialog id="settings" aria-labelledby="sTitle">
-  <h2 id="sTitle">Pengaturan</h2>
-  <label class="row">Tema
-    <select id="theme" class="field"><option value="dark">Gelap</option><option value="light">Terang</option></select></label>
-  <label class="row">Ukuran teks
-    <select id="fontsize" class="field"><option value="15">Normal</option><option value="17">Besar</option></select></label>
-  <h3>Tentang</h3>
-  <p class="muted">Jurkon AI — Your ideas. Your intelligence. Nama "Jurkon" ditemukan pendirinya pada 2023. Status: <b>Prototipe (Tahap 2)</b>. Balasan AI disimulasikan; data disimpan hanya di browser ini (bukan sinkronisasi cloud) dan bisa terhapus.</p>
-  <div class="actions"><button class="btn danger" id="clearAll">Hapus semua riwayat</button><button class="btn" id="closeSettings">Tutup</button></div>
+  <div class="dlg-head"><h2 id="sTitle">Pengaturan</h2><button class="icon" id="closeSettings" type="button" aria-label="Tutup"><span data-icon="x"></span></button></div>
+  <label class="row">Tema<select id="theme" class="field"><option value="dark">Gelap</option><option value="light">Terang</option></select></label>
+  <label class="row">Ukuran teks<select id="fontsize" class="field"><option value="16">Normal</option><option value="18">Besar</option></select></label>
+  <section class="about">
+    <span class="tile"><img src="assets/logo.png" alt="" width="32" height="32"></span>
+    <div><strong>Jurkon AI</strong><p>Your ideas. Your intelligence.</p></div>
+  </section>
+  <p class="muted">Nama "Jurkon" ditemukan pendirinya pada 2023. Status pengembangan: antarmuka dan penyimpanan lokal sudah berjalan; layanan AI belum terhubung. Riwayat disimpan hanya di browser ini (tidak terenkripsi, bukan sinkronisasi cloud) dan dapat terhapus.</p>
+  <button class="btn danger" id="clearAll" type="button">Hapus semua riwayat</button>
 </dialog>
 <div class="toast" id="toast" role="status"></div>
-<div id="boot-error" role="alert" hidden style="margin:16px;padding:14px 16px;border:1px solid #ef6b73;border-radius:12px;background:#171b28;color:#f1f3fa;font:15px/1.5 system-ui,sans-serif"><strong>Jurkon AI gagal dimuat sepenuhnya.</strong> Muat ulang halaman. Jika berlanjut, pastikan folder <code>src</code>, <code>styles</code>, dan <code>assets</code> ada di repositori dengan nama persis seperti itu. Detail teknis ada di console browser. <a href="cek.html" style="color:#a6aaff">Cek file yang hilang</a></div>
-<script>
-// Pemulihan: tampilkan pesan ramah jika CSS/JS gagal dimuat atau JS error sebelum app siap.
-window.addEventListener('error',function(e){var t=e.target||{},res=t.tagName==='LINK'||t.tagName==='SCRIPT';
-if(res||!window.__jurkonReady){var b=document.getElementById('boot-error');if(b)b.hidden=false;
-console.error('Jurkon gagal dimuat:',res?(t.href||t.src):e.message,e.error||'');}},true);
-</script>
 <script type="module" src="src/app.js"></script>
 </body>
 </html>
