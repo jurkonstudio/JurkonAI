@@ -1,0 +1,23 @@
+// Jalankan: node tests/logic.test.mjs  (tanpa dependensi; menguji logika non-DOM)
+import assert from 'node:assert/strict';
+const mem = {}; globalThis.localStorage = { getItem: k => mem[k] ?? null, setItem: (k, v) => { mem[k] = v; }, removeItem: k => { delete mem[k]; } };
+globalThis.document = { getElementById: () => null };
+const { state } = await import('../src/core/state.js');
+const chat = await import('../src/chat/chatController.js');
+const { sanitize, load } = await import('../src/chat/chatStorage.js');
+let n = 0; const t = (name, ok) => { assert.ok(ok, name); console.log('lulus:', name); n++; };
+mem['jurkon.v1'] = '{rusak'; t('JSON rusak -> default', load().conversations.length === 0);
+t('skema salah -> default', sanitize({ conversations: 5 }).conversations.length === 0);
+t('pesan tidak valid dibuang', sanitize({ conversations: [{ id: 'a', title: 'x'.repeat(200), messages: [{ role: 'bot', text: 1 }, { role: 'user', text: 'hi' }] }], prefs: { theme: 'x' } }).conversations[0].messages.length === 1);
+t('judul dipotong & tema fallback', sanitize({ conversations: [{ id: 'a', title: 'x'.repeat(200), messages: [] }], prefs: { theme: 'x' } }).prefs.theme === 'dark');
+chat.init(); chat.newChat();
+const p1 = chat.send('halo'); const p2 = chat.send('halo lagi');
+t('pengiriman ganda dicegah', state.conversations[0].messages.length === 1);
+await Promise.all([p1, p2]);
+t('balasan simulasi ditandai', state.conversations[0].messages[1].simulated === true && !state.pending);
+await chat.send('error'); t('error ditangani', state.conversations[0].messages.at(-1).error === true);
+t('persist & reload', load().conversations[0].messages.length === 4);
+chat.rename('Nama baru'); t('rename', state.conversations[0].title === 'Nama baru');
+chat.remove(); t('hapus percakapan', state.conversations.length === 0);
+chat.newChat(); chat.clearHistory(); t('hapus semua riwayat', load().conversations.length === 0);
+console.log(`${n} tes lulus`);
