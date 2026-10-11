@@ -1,0 +1,11 @@
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Cek file Jurkon AI</title>
+<style>body{font:15px/1.6 system-ui,sans-serif;background:#0b0d14;color:#f1f3fa;margin:0;padding:16px}li{list-style:none;padding:2px 0;word-break:break-all}.ok{color:#4cc38a}.bad{color:#ef6b73;font-weight:700}a{color:#a6aaff}</style></head><body>
+<h1>Cek file Jurkon AI</h1><p id="sum">Memeriksa…</p><ul id="l"></ul><p><a href="./">Kembali ke aplikasi</a></p>
+<script>
+const files=["README.md", "assets/logo.png", "index.html", "manifest.webmanifest", "src/app.js", "src/chat/aiService.js", "src/chat/chatController.js", "src/chat/chatStorage.js", "src/chat/messageRenderer.js", "src/core/config.js", "src/core/state.js", "src/ui/notifications.js", "src/ui/settings.js", "src/ui/sidebar.js", "src/ui/theme.js", "src/utils/clipboard.js", "src/utils/dom.js", "src/utils/markdown.js", "styles/base.css", "styles/components.css", "styles/layout.css", "styles/responsive.css", "styles/tokens.css", ".nojekyll"];
+(async()=>{let bad=0;const ul=document.getElementById('l');
+for(const f of files){const li=document.createElement('li');
+try{const r=await fetch(f,{cache:'no-store'});li.className=r.ok?'ok':'bad';li.textContent=(r.ok?'ADA     ':'HILANG  ')+f+' ('+r.status+')';if(!r.ok)bad++;}
+catch(e){li.className='bad';li.textContent='ERROR   '+f;bad++;}ul.append(li);}
+document.getElementById('sum').textContent=bad?bad+' file hilang/gagal. Upload file bertanda HILANG dengan path persis seperti tertulis.':'Semua file ada. Jika masih gagal, muat ulang tanpa cache.';})();
+</script></body></html>
