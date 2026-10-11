@@ -1,2 +1,13 @@
-:root{--bg:#0b0d14;--bg2:#12151f;--surface:#171b28;--elev:#1e2333;--text:#f1f3fa;--text2:#b4b9cc;--muted:#7d839a;--accent:#8f94ff;--accent-h:#a6aaff;--on-accent:#0b0d14;--border:#2a2f44;--ok:#4cc38a;--warn:#e5b44b;--err:#ef6b73;--focus:#b9bcff;--shadow:0 8px 28px rgba(0,0,0,.35);--overlay:rgba(5,6,10,.6);--r-s:10px;--r-m:16px;--r-l:24px;--s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--fs:15px;--font:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,monospace}
-:root[data-theme=light]{--bg:#f6f7fb;--bg2:#eceef6;--surface:#fff;--elev:#fff;--text:#14172a;--text2:#444a63;--muted:#6b718a;--accent:#5a5fe0;--accent-h:#4a4fd0;--on-accent:#fff;--border:#d9dcea;--focus:#5a5fe0;--shadow:0 8px 28px rgba(20,23,42,.12);--overlay:rgba(20,23,42,.35)}
+/* Semua nilai desain ada di sini. Breakpoint: 860px (drawer <= 860px). */
+:root{--bg:#15171d;--sidebar:#111318;--surface:#1c1f27;--hover:#242834;--active:#2b3040;
+--text:#eceef4;--text2:#b2b8c8;--muted:#8d93a6;
+--accent:#8b8fff;--accent-h:#a0a3ff;--on-accent:#101224;--accent-soft:rgba(139,143,255,.14);
+--border:#282c39;--ok:#4cc38a;--warn:#e5b44b;--err:#f07178;--focus:#b4b7ff;--tile:#1f2335;
+--shadow:0 10px 30px rgba(0,0,0,.35);--overlay:rgba(6,7,11,.6);
+--r-s:10px;--r-m:14px;--r-l:22px;--s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:40px;
+--dur:.16s;--ease:cubic-bezier(.2,.7,.2,1);--fs:16px;--sidebar-w:272px;--content-w:760px;
+--font:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+:root[data-theme=light]{--bg:#fbfbfd;--sidebar:#f2f3f8;--surface:#fff;--hover:#e9eaf2;--active:#e0e2ee;
+--text:#171a26;--text2:#444a60;--muted:#666c82;--accent:#5459e6;--accent-h:#4348d6;--on-accent:#fff;--accent-soft:rgba(84,89,230,.1);
+--border:#dcdfeb;--err:#c8333d;--focus:#5459e6;--shadow:0 10px 30px rgba(23,26,38,.12);--overlay:rgba(23,26,38,.35)}
