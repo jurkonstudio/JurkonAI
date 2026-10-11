@@ -1,16 +1,16 @@
-# Jurkon AI — Prototipe Tahap 1
-Ruang kerja AI pribadi (frontend statis). **Balasan AI hanya simulasi** (`js/mockAI.js`); tidak ada model nyata, login, atau sinkronisasi cloud.
+# Jurkon AI — Tahap 2
+Antarmuka AI statis. **Balasan hanya simulasi** (`src/chat/aiService.js`); tidak ada model nyata, akun, atau cloud.
 
-## Fitur
-Chat baru, kirim via tombol/Enter (Shift+Enter = baris baru), riwayat & pencarian, ubah nama, salin pesan/kode, Markdown aman (tanpa innerHTML), tema gelap/terang, ukuran teks, hapus riwayat, penyimpanan localStorage berversi (`jurkon.v1`).
+Fitur: chat baru, kirim via tombol/Enter (Shift+Enter baris baru), riwayat (cari, ganti nama, hapus), salin pesan/kode, Markdown aman tanpa innerHTML, tema gelap/terang, ukuran teks, hapus semua riwayat, localStorage (`jurkon.v1`, tidak terenkripsi, hanya di browser ini).
 
-## Jalankan lokal
-ES module butuh server: `python3 -m http.server 8000` lalu buka http://localhost:8000
+## Lokal
+`python3 -m http.server 8000` → http://localhost:8000. Tes logika: `node tests/logic.test.mjs`.
 
-## Deploy GitHub Pages
-1. Push semua file ke branch `main`.
-2. Settings → Pages → Source: *Deploy from a branch* → `main` / `(root)`.
-3. Buka `https://<user>.github.io/<repo>/` (semua path relatif, aman di subpath).
+## GitHub Pages
+Push isi folder ke `main` → Settings → Pages → Deploy from a branch → `main` / `(root)` → buka `https://<user>.github.io/<repo>/`.
 
-## Batasan
-Data hanya di browser ini dan bisa terhapus. AI nyata nanti butuh backend aman; jangan simpan API key di frontend. Ketik "error" untuk menguji tampilan galat, "kode" untuk menguji code block.
+## Dokumen
+`docs/ARCHITECTURE.md`, `DESIGN_SYSTEM.md`, `ROADMAP.md`, `TECHNICAL_DECISIONS.md`, `tests/TEST_PLAN.md`.
+
+## Keterbatasan
+UI belum diuji di browser/perangkat nyata; ikon header berupa karakter teks; drawer belum punya focus trap; Markdown terbatas; AI nyata butuh backend aman.
