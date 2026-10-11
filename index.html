@@ -48,10 +48,17 @@
   <label class="row">Ukuran teks
     <select id="fontsize" class="field"><option value="15">Normal</option><option value="17">Besar</option></select></label>
   <h3>Tentang</h3>
-  <p class="muted">Jurkon AI — Your ideas. Your intelligence. Nama "Jurkon" ditemukan pendirinya pada 2023. Status: <b>Prototipe Tahap 1</b>. Balasan AI disimulasikan; data disimpan hanya di browser ini (bukan sinkronisasi cloud) dan bisa terhapus.</p>
+  <p class="muted">Jurkon AI — Your ideas. Your intelligence. Nama "Jurkon" ditemukan pendirinya pada 2023. Status: <b>Prototipe (Tahap 2)</b>. Balasan AI disimulasikan; data disimpan hanya di browser ini (bukan sinkronisasi cloud) dan bisa terhapus.</p>
   <div class="actions"><button class="btn danger" id="clearAll">Hapus semua riwayat</button><button class="btn" id="closeSettings">Tutup</button></div>
 </dialog>
 <div class="toast" id="toast" role="status"></div>
+<div id="boot-error" role="alert" hidden style="margin:16px;padding:14px 16px;border:1px solid #ef6b73;border-radius:12px;background:#171b28;color:#f1f3fa;font:15px/1.5 system-ui,sans-serif"><strong>Jurkon AI gagal dimuat sepenuhnya.</strong> Muat ulang halaman. Jika berlanjut, pastikan folder <code>src</code>, <code>styles</code>, dan <code>assets</code> ada di repositori dengan nama persis seperti itu. Detail teknis ada di console browser.</div>
+<script>
+// Pemulihan: tampilkan pesan ramah jika CSS/JS gagal dimuat atau JS error sebelum app siap.
+window.addEventListener('error',function(e){var t=e.target||{},res=t.tagName==='LINK'||t.tagName==='SCRIPT';
+if(res||!window.__jurkonReady){var b=document.getElementById('boot-error');if(b)b.hidden=false;
+console.error('Jurkon gagal dimuat:',res?(t.href||t.src):e.message,e.error||'');}},true);
+</script>
 <script type="module" src="src/app.js"></script>
 </body>
 </html>
