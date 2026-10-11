@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jurkon AI</title>
+<meta name="theme-color" content="#0b0d14">
+<link rel="icon" href="assets/logo.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div class="app" id="app">
+  <div class="scrim" id="scrim" hidden></div>
+  <aside class="sidebar" id="sidebar" aria-label="Navigasi">
+    <div class="brand"><img src="assets/logo.png" alt="" width="32" height="32"><strong>Jurkon AI</strong></div>
+    <button class="btn primary" id="newChat">+ Chat baru</button>
+    <label class="sr" for="search">Cari percakapan</label>
+    <input class="field" id="search" type="search" placeholder="Cari percakapan…">
+    <nav class="history" id="history" aria-label="Riwayat"></nav>
+    <button class="btn ghost" id="openSettings">Pengaturan</button>
+  </aside>
+  <main class="main">
+    <header class="top">
+      <button class="icon" id="menu" aria-label="Buka menu">☰</button>
+      <h1 id="title">Jurkon AI</h1>
+      <button class="icon" id="rename" aria-label="Ubah nama percakapan">✎</button>
+    </header>
+    <section class="chat" id="chat" aria-live="polite"></section>
+    <form class="composer" id="form">
+      <label class="sr" for="input">Pesan</label>
+      <textarea id="input" rows="1" placeholder="Tulis pesan… (Shift+Enter untuk baris baru)"></textarea>
+      <button class="btn primary send" id="send" aria-label="Kirim">Kirim</button>
+    </form>
+    <p class="note">Mode prototipe: balasan adalah simulasi, bukan model AI nyata.</p>
+  </main>
+</div>
+<dialog id="settings" aria-labelledby="sTitle">
+  <h2 id="sTitle">Pengaturan</h2>
+  <label class="row">Tema
+    <select id="theme" class="field"><option value="dark">Gelap</option><option value="light">Terang</option></select></label>
+  <label class="row">Ukuran teks
+    <select id="fontsize" class="field"><option value="15">Normal</option><option value="17">Besar</option></select></label>
+  <h3>Tentang</h3>
+  <p class="muted">Jurkon AI — Your ideas. Your intelligence. Nama "Jurkon" ditemukan pendirinya pada 2023. Status: <b>Prototipe Tahap 1</b>. Balasan AI disimulasikan; data disimpan hanya di browser ini (bukan sinkronisasi cloud) dan bisa terhapus.</p>
+  <div class="actions"><button class="btn danger" id="clearAll">Hapus semua riwayat</button><button class="btn" id="closeSettings">Tutup</button></div>
+</dialog>
+<div class="toast" id="toast" role="status"></div>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
