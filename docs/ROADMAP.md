@@ -1,4 +1,5 @@
 # Roadmap
+0. **Pemulihan UI (selesai di kode)** — penyebab: nama folder repositori tidak cocok (`asset`/`style` vs `assets`/`styles`). Ditambah pesan pemulihan jika CSS/JS gagal dimuat.
 1. **Stabilisasi UI** — uji di perangkat nyata, ikon SVG, perbaikan aksesibilitas (focus trap drawer).
 2. **Integrasi AI** — ganti `aiService.js` dengan backend aman (tanpa API key di frontend), streaming.
 3. **Pengelolaan percakapan** — ekspor/impor, pin, hapus per item dari sidebar.
